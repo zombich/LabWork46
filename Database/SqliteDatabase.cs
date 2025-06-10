@@ -12,7 +12,7 @@ namespace Database
         public SqliteDatabase()
         {
         }
-        public string FileName { get; set; } = "mydb.sqlite";
+        public string FileName { get; set; } = "testdb31.sqlite";
         private string _connectionString
         {
             get

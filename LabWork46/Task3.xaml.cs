@@ -16,7 +16,24 @@ namespace LabWork46
 
         private void UpdateGameMSSQLButton_Click(object sender, RoutedEventArgs e)
         {
+            int id;
+            if (!int.TryParse(IdTextBox.Text, out id))
+                return;
+            double price;
+            if (!double.TryParse(PriceTextBox.Text, out price))
+                return;
+            var result = SqlDatabase.UpdateGame(id, TitleTextBox.Text, price);
 
+            if (result)
+                MessageBox.Show("Изменено",
+                                "Успех",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+            else
+                MessageBox.Show("Не удалось изменить",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
         }
 
         private void UpdateGameSQLButton_Click(object sender, RoutedEventArgs e)
