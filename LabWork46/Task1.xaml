@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LabWork46"
         mc:Ignorable="d"
-        Title="Task1" Height="450" Width="800">
+        Title="Свойства" Height="450" Width="800" FontSize="18">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button Content="Test" Click="Button_Click" Padding="10"/>
     </StackPanel>

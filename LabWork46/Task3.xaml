@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LabWork46"
         mc:Ignorable="d"
-        Title="Task3" Height="450" Width="800">
+        Title="Изменение данных в БД" Height="450" Width="800" FontSize="18">
     <StackPanel>
         <Label Content="Id"/>
         <TextBox x:Name="IdTextBox"/>

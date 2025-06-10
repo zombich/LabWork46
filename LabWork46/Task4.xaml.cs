@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace LabWork46
 {
@@ -22,6 +10,52 @@ namespace LabWork46
         public Task4()
         {
             InitializeComponent();
+        }
+        Database.IDatabase SqlDatabase { get; } = new Database.SqlDatabase();
+        Database.IDatabase SqliteDatabase { get; } = new Database.SqliteDatabase();
+
+        private void MSSQLInsertGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            double price;
+            if (!double.TryParse(PriceTextBox.Text, out price))
+                return;
+            int publicationYear;
+            if (!int.TryParse(PublicationYearTextBox.Text, out publicationYear))
+                return;
+
+            try
+            {
+                SqlDatabase.InsertGame(TitleTextBox.Text, price, publicationYear);
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось вставить данные",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void SQLiteInsertGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            double price;
+            if (!double.TryParse(PriceTextBox.Text, out price))
+                return;
+            int publicationYear;
+            if (!int.TryParse(PublicationYearTextBox.Text, out publicationYear))
+                return;
+
+            try
+            {
+                SqliteDatabase.InsertGame(TitleTextBox.Text, price, publicationYear);
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось вставить данные",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }

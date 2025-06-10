@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LabWork46"
         mc:Ignorable="d"
-        Title="Task2" Height="450" Width="800">
+        Title="Отправка команды в БД" Height="450" Width="800" FontSize="18">
     <StackPanel>
         <Label>Команда MSSQL</Label>
         <TextBox Text="UPDATE Game SET Price = Price + 1" x:Name="MSSQLCommandTextBox"/>

@@ -1,62 +1,25 @@
 ﻿using Microsoft.Data.Sqlite;
-using System.Runtime.CompilerServices;
 
 namespace Database
 {
     public class SqliteDatabase : IDatabase
     {
-        public SqliteDatabase(string fileName) 
-        { 
+        public string FileName { get; set; }
+
+        private readonly string _connectionString;
+
+        public SqliteDatabase(string fileName)
+        {
             FileName = fileName;
-        }
-        public SqliteDatabase()
-        {
-        }
-        public string FileName { get; set; } = "testdb31.sqlite";
-        private string _connectionString
-        {
-            get
+            SqliteConnectionStringBuilder builder = new()
             {
-                SqliteConnectionStringBuilder builder = new()
-                {
-                    DataSource = FileName
-                };
-                return builder.ConnectionString;
-            }
+                DataSource = FileName
+            };
+            _connectionString = builder.ConnectionString;
         }
-        public List<Game> Games
+
+        public SqliteDatabase() : this("testdb31.sqlite")
         {
-            get
-            {
-                using SqliteConnection connection = new(_connectionString);
-                connection.Open();
-
-                string query = "SELECT * FROM GAME";
-                SqliteCommand command = new(query, connection);
-                SqliteDataReader reader = command.ExecuteReader();
-
-                List<Game> games = new();
-                Game game;
-
-                if (reader.HasRows)
-                    while (reader.Read())
-                    {
-                        game = new();
-                        game.Id = Convert.ToInt32(reader["Id"]);
-                        game.Title = reader["Title"].ToString();
-                        game.Price = Convert.ToDouble(reader["Price"]);
-                        games.Add(game);
-                    }
-                return games;
-            }
-        }
-        public object GetScalarValue(string query)
-        {
-            using SqliteConnection connection = new(_connectionString);
-            connection.Open();
-
-            SqliteCommand command = new(query, connection);
-            return command.ExecuteScalar();
         }
 
         public int ExecuteQuery(string query)
@@ -80,6 +43,22 @@ namespace Database
 
             SqliteCommand command = new(query, connection);
             return command.ExecuteNonQuery() == 1;
+        }
+
+        public void InsertGame(string title, double price, int publicationYear)
+        {
+            using SqliteConnection connection = new(_connectionString);
+            connection.Open();
+
+            string query = @$"INSERT INTO Game(Title, Price, PublicationYear) 
+                            VALUES (@title, @price, @publicationYear);";
+
+            SqliteCommand command = new(query, connection);
+            command.Parameters.AddWithValue("@title", title);
+            command.Parameters.AddWithValue("@price", price);
+            command.Parameters.AddWithValue("@publicationYear", publicationYear);
+
+            command.ExecuteNonQuery();
         }
     }
 }

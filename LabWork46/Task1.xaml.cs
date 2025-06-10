@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Database;
 
 namespace LabWork46
 {
@@ -20,12 +21,13 @@ namespace LabWork46
     /// </summary>
     public partial class Task1 : Window
     {
+        private IDatabase _database { get; } = new SqliteDatabase();
+
         public Task1()
         {
             InitializeComponent();
         }
-        Database.IDatabase _database { get; } = new Database.SqliteDatabase("db.sqlite");
-        Database.IDatabase _database2 { get; } = new Database.SqlDatabase("sql","db","login","pass");
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             int id = 0;

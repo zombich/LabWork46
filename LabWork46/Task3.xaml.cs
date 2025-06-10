@@ -7,12 +7,13 @@ namespace LabWork46
     /// </summary>
     public partial class Task3 : Window
     {
+        Database.IDatabase SqlDatabase { get; } = new Database.SqlDatabase();
+        Database.IDatabase SqliteDatabase { get; } = new Database.SqliteDatabase();
+
         public Task3()
         {
             InitializeComponent();
         }
-        Database.IDatabase SqlDatabase { get; } = new Database.SqlDatabase();
-        Database.IDatabase SqliteDatabase { get; } = new Database.SqliteDatabase();
 
         private void UpdateGameMSSQLButton_Click(object sender, RoutedEventArgs e)
         {
@@ -22,7 +23,19 @@ namespace LabWork46
             double price;
             if (!double.TryParse(PriceTextBox.Text, out price))
                 return;
-            var result = SqlDatabase.UpdateGame(id, TitleTextBox.Text, price);
+
+            bool result = false;
+            try
+            {
+                result = SqlDatabase.UpdateGame(id, TitleTextBox.Text, price);
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось изменить данные",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
 
             if (result)
                 MessageBox.Show("Изменено",
@@ -30,7 +43,7 @@ namespace LabWork46
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
             else
-                MessageBox.Show("Не удалось изменить",
+                MessageBox.Show("Не удалось изменить данные",
                                 "Ошибка",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);

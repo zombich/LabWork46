@@ -6,13 +6,14 @@ namespace LabWork46
     /// Логика взаимодействия для Task2.xaml
     /// </summary>
     public partial class Task2 : Window
-    {
+    {        
+        Database.IDatabase SqlDatabase { get; } = new Database.SqlDatabase();
+        Database.IDatabase SqliteDatabase { get; } = new Database.SqliteDatabase();
+
         public Task2()
         {
             InitializeComponent();
         }
-        Database.IDatabase SqlDatabase { get; } = new Database.SqlDatabase();
-        Database.IDatabase SqliteDatabase { get; } = new Database.SqliteDatabase();
         private void SendSQLiteCommandButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -24,9 +25,9 @@ namespace LabWork46
                                 "Результат", MessageBoxButton.OK,
                                 MessageBoxImage.Information);
             }
-            catch (Exception)
+            catch
             {
-                MessageBox.Show("Некорректная команда",
+                MessageBox.Show("Некорректная команда или не удалось установить подключение",
                                 "Ошибка",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -40,12 +41,12 @@ namespace LabWork46
                 object result = SqlDatabase.ExecuteQuery(MSSQLCommandTextBox.Text);
                 if (result is null)
                     result = "NULL";
-                MessageBox.Show($"Количество измененных строк: {result.ToString()}",
+                MessageBox.Show($"Количество измененных строк: {result}",
                                     "Результат",
                                     MessageBoxButton.OK,
                                     MessageBoxImage.Information);
             }
-            catch (Exception)
+            catch
             {
                 MessageBox.Show("Некорректная команда или не удалось установить подключение",
                                 "Ошибка",
